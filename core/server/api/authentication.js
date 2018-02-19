@@ -556,7 +556,7 @@ authentication = {
 
         function formatResponse(setupUser) {
             options.response = {users: [setupUser]};
-            response options.response;
+            return options.response;
         }
 
         tasks = [
