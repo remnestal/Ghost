@@ -30,7 +30,8 @@ db = {
         options = options || {};
 
         function jsonResponse(filename) {
-            return {db: [{filename: filename}]};
+            options.response = {db: [{filename: filename}]};
+            return options.response;
         }
 
         tasks = [
@@ -55,11 +56,12 @@ db = {
 
         // Export data, otherwise send error 500
         function exportContent() {
-            return exporter.doExport().then(function (exportedData) {
+            options.response = exporter.doExport().then(function (exportedData) {
                 return {db: [exportedData]};
             }).catch(function (err) {
                 return Promise.reject(new common.errors.GhostError({err: err}));
             });
+            return options.response;
         }
 
         tasks = [
@@ -82,11 +84,12 @@ db = {
         options = options || {};
 
         function importContent(options) {
-            return importer.importFromFile(options)
+            options.response = importer.importFromFile(options)
                 .then(function (response) {
                     // NOTE: response can contain 2 objects if images are imported
                     return {db: [], problems: response.length === 2 ? response[1].problems : response[0].problems};
                 });
+            return options.response;
         }
 
         tasks = [
@@ -116,12 +119,13 @@ db = {
                 models.Tag.findAll(queryOpts)
             ];
 
-            return Promise.each(collections, function then(Collection) {
+            options.response = Promise.each(collections, function then(Collection) {
                 return Collection.invokeThen('destroy', queryOpts);
             }).return({db: []})
                 .catch(function (err) {
                     throw new common.errors.GhostError({err: err});
                 });
+            return options.response;
         }
 
         tasks = [
