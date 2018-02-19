@@ -93,7 +93,7 @@ tags = {
      * @param {Tag} object the tag to create
      * @returns {Promise(Tag)} Newly created Tag
      */
-    add: function add(object, options) {
+    add: function add(options) {
         var tasks;
 
         /**
@@ -120,7 +120,7 @@ tags = {
         ];
 
         // Pipeline calls each task passing the result of one to be the arguments for the next
-        return pipeline(tasks, object, options);
+        return pipeline(tasks, options);
     },
 
     /**
@@ -131,7 +131,7 @@ tags = {
      * @param {{id, context, include}} options
      * @return {Promise<Tag>} Edited Tag
      */
-    edit: function edit(object, options) {
+    edit: function edit(options) {
         var tasks;
 
         /**
@@ -163,7 +163,7 @@ tags = {
         ];
 
         // Pipeline calls each task passing the result of one to be the arguments for the next
-        return pipeline(tasks, object, options);
+        return pipeline(tasks, options);
     },
 
     /**

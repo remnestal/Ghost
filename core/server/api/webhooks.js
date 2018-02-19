@@ -64,7 +64,7 @@ webhooks = {
      * @param {Webhook} object the webhook to create
      * @returns {Promise(Webhook)} newly created Webhook
      */
-    add: function add(object, options) {
+    add: function add( options) {
         var tasks;
 
         /**
@@ -97,7 +97,7 @@ webhooks = {
         ];
 
         // Pipeline calls each task passing the result of one to be the arguments for the next
-        return pipeline(tasks, object, options);
+        return pipeline(tasks, options);
     },
 
     /**

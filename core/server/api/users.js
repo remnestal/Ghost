@@ -104,18 +104,18 @@ users = {
      * @param {{id, context}} options
      * @returns {Promise<User>}
      */
-    edit: function edit(object, options) {
+    edit: function edit(options) {
         var extraOptions = ['editRoles'],
             permittedOptions = extraOptions.concat(localUtils.idDefaultOptions),
             tasks;
 
-        if (object.users && object.users[0] && object.users[0].roles && object.users[0].roles[0]) {
+        if (options.data.users && options.data.users[0] && options.data.users[0].roles && options.data.users[0].roles[0]) {
             options.editRoles = true;
         }
 
         // The password should never be set via this endpoint, if it is passed, ignore it
-        if (object.users && object.users[0] && object.users[0].password) {
-            delete object.users[0].password;
+        if (options.data.users && options.data.users[0] && options.data.users[0].password) {
+            delete options.data.users[0].password;
         }
 
         /**
@@ -218,7 +218,7 @@ users = {
             doQuery
         ];
 
-        return pipeline(tasks, object, options);
+        return pipeline(tasks, options);
     },
 
     /**
@@ -288,11 +288,11 @@ users = {
      * @param {{context}} options
      * @returns {Promise<password>} success message
      */
-    changePassword: function changePassword(object, options) {
+    changePassword: function changePassword(options) {
         var tasks;
 
         function validateRequest() {
-            return localUtils.validate('password')(object, options)
+            return localUtils.validate('password')(options.data, options)
                 .then(function (options) {
                     var data = options.data.password[0];
 
@@ -349,7 +349,7 @@ users = {
         ];
 
         // Pipeline calls each task passing the result of one to be the arguments for the next
-        return pipeline(tasks, object, options);
+        return pipeline(tasks, options);
     },
 
     /**
@@ -358,7 +358,7 @@ users = {
      * @param {Object} options
      * @returns {Promise<User>}
      */
-    transferOwnership: function transferOwnership(object, options) {
+    transferOwnership: function transferOwnership(options) {
         var tasks;
 
         /**
@@ -401,7 +401,7 @@ users = {
         ];
 
         // Pipeline calls each task passing the result of one to be the arguments for the next
-        return pipeline(tasks, object, options);
+        return pipeline(tasks, options);
     }
 };
 

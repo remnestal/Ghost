@@ -38,17 +38,9 @@ utils = {
          * Validate the object and options passed to an endpoint
          * @argument {...*} [arguments] object or object and options hash
          */
-        return function doValidate() {
-            var object, options, permittedOptions;
-
-            if (arguments.length === 2) {
-                object = arguments[0];
-                options = _.clone(arguments[1]) || {};
-            } else if (arguments.length === 1) {
-                options = _.clone(arguments[0]) || {};
-            } else {
-                options = {};
-            }
+        return function doValidate(options) { 
+            var object, permittedOptions; 
+            object = options.data; 
 
             // Setup permitted options, starting with the global defaults
             permittedOptions = utils.globalDefaultOptions;

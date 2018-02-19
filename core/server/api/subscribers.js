@@ -92,7 +92,7 @@ subscribers = {
      * @param {Subscriber} object the subscriber to create
      * @returns {Promise(Subscriber)} Newly created Subscriber
      */
-    add: function add(object, options) {
+    add: function add(options) {
         var tasks;
 
         /**
@@ -134,7 +134,7 @@ subscribers = {
         ];
 
         // Pipeline calls each task passing the result of one to be the arguments for the next
-        return pipeline(tasks, object, options);
+        return pipeline(tasks, options);
     },
 
     /**
@@ -145,7 +145,7 @@ subscribers = {
      * @param {{id, context, include}} options
      * @return {Promise<Subscriber>} Edited Subscriber
      */
-    edit: function edit(object, options) {
+    edit: function edit(options) {
         var tasks;
 
         /**
@@ -176,7 +176,7 @@ subscribers = {
         ];
 
         // Pipeline calls each task passing the result of one to be the arguments for the next
-        return pipeline(tasks, object, options);
+        return pipeline(tasks, options);
     },
 
     /**
