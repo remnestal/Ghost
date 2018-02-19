@@ -112,7 +112,8 @@ function setupTasks(setupData) {
     }
 
     function formatResponse(user) {
-        return user.toJSON({context: {internal: true}});
+        options.response = user.toJSON({context: {internal: true}});
+        return options.response;
     }
 
     tasks = [
@@ -209,11 +210,12 @@ authentication = {
         }
 
         function formatResponse() {
-            return {
+            options.response = {
                 passwordreset: [
                     {message: common.i18n.t('common.api.authentication.mail.checkEmailForInstructions')}
                 ]
             };
+            return options.response;
         }
 
         tasks = [
@@ -332,11 +334,12 @@ authentication = {
         }
 
         function formatResponse() {
-            return {
+            options.response = {
                 passwordreset: [
                     {message: common.i18n.t('common.api.authentication.mail.passwordChanged')}
                 ]
             };
+            return options.response;
         }
 
         tasks = [
@@ -410,11 +413,12 @@ authentication = {
         }
 
         function formatResponse() {
-            return {
+            options.response = {
                 invitation: [
                     {message: common.i18n.t('common.api.authentication.mail.invitationAccepted')}
                 ]
             };
+            return options.response;
         }
 
         tasks = [
@@ -449,7 +453,7 @@ authentication = {
         }
 
         function checkInvitation(email) {
-            return models.Invite
+            options.response = models.Invite
                 .findOne({email: email, status: 'sent'}, options)
                 .then(function fetchedInvite(invite) {
                     if (!invite) {
@@ -461,6 +465,7 @@ authentication = {
                             return {invitation: [{valid: true, invitedBy: user.get('name')}]};
                         });
                 });
+            return options.response;
         }
 
         tasks = [
@@ -484,7 +489,7 @@ authentication = {
         }
 
         function formatResponse(isSetup) {
-            return {
+            options.response = {
                 setup: [
                     {
                         status: isSetup,
@@ -495,6 +500,7 @@ authentication = {
                     }
                 ]
             };
+            return options.response;
         }
 
         tasks = [
@@ -549,7 +555,8 @@ authentication = {
         }
 
         function formatResponse(setupUser) {
-            return {users: [setupUser]};
+            options.response = {users: [setupUser]};
+            response options.response;
         }
 
         tasks = [
@@ -592,7 +599,8 @@ authentication = {
         }
 
         function formatResponse(user) {
-            return {users: [user]};
+            options.response = {users: [user]};
+            return options.response;
         }
 
         tasks = [
