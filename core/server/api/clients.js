@@ -35,7 +35,7 @@ clients = {
             // only User Agent (type = `ua`) clients are available at the moment.
             options.data = _.extend(options.data, {type: 'ua'});
 
-            return models.Client.findOne(options.data, _.omit(options, ['data']))
+            options.response = models.Client.findOne(options.data, _.omit(options, ['data']))
                 .then(function onModelResponse(model) {
                     if (!model) {
                         return Promise.reject(new common.errors.NotFoundError({
@@ -47,6 +47,7 @@ clients = {
                         clients: [model.toJSON(options)]
                     };
                 });
+            return options.response;
         }
 
         // Push all of our tasks into a `tasks` array in the correct order
