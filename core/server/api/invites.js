@@ -18,7 +18,8 @@ invites = {
         var tasks;
 
         function modelQuery(options) {
-            return models.Invite.findPage(options);
+            options.response = models.Invite.findPage(options);
+            return options.response;
         }
 
         tasks = [
@@ -36,7 +37,7 @@ invites = {
             tasks;
 
         function modelQuery(options) {
-            return models.Invite.findOne(options.data, _.omit(options, ['data']))
+            options.response = models.Invite.findOne(options.data, _.omit(options, ['data']))
                 .then(function onModelResponse(model) {
                     if (!model) {
                         return Promise.reject(new common.errors.NotFoundError({
@@ -48,6 +49,7 @@ invites = {
                         invites: [model.toJSON(options)]
                     };
                 });
+            return options.response;
         }
 
         tasks = [
@@ -64,7 +66,7 @@ invites = {
         var tasks;
 
         function modelQuery(options) {
-            return models.Invite.findOne({id: options.id}, _.omit(options, ['data']))
+            options.response = models.Invite.findOne({id: options.id}, _.omit(options, ['data']))
                 .then(function (invite) {
                     if (!invite) {
                         throw new common.errors.NotFoundError({message: common.i18n.t('errors.api.invites.inviteNotFound')});
@@ -72,6 +74,7 @@ invites = {
 
                     return invite.destroy(options).return(null);
                 });
+            return options.response;
         }
 
         tasks = [
@@ -93,7 +96,7 @@ invites = {
         function addInvite(options) {
             var data = options.data;
 
-            return models.Invite.add(data.invites[0], _.omit(options, 'data'))
+            options.response = models.Invite.add(data.invites[0], _.omit(options, 'data'))
                 .then(function (_invite) {
                     invite = _invite;
 
@@ -147,6 +150,7 @@ invites = {
 
                     return Promise.reject(error);
                 });
+            return options.response;
         }
 
         function destroyOldInvite(options) {
