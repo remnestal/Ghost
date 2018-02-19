@@ -248,8 +248,7 @@ addHeaders = function addHeaders(apiMethod, req, res, result) {
 http = function http(apiMethod) {
     return function apiHandler(req, res, next) {
         // We define 2 properties for using as arguments in API calls:
-        var object = req.body,
-            options = _.extend({}, req.file, {ip: req.ip}, req.query, req.params, {
+        var options = _.extend({}, req.file, {ip: req.ip}, req.query, req.params, {
                 context: {
                     // @TODO: forward the client and user obj in 1.0 (options.context.user.id)
                     user: ((req.user && req.user.id) || (req.user && models.User.isExternalUser(req.user.id))) ? req.user.id : null,
@@ -257,15 +256,9 @@ http = function http(apiMethod) {
                     client_id: (req.client && req.client.id) ? req.client.id : null
                 }
             });
+            options.data = req.body;
 
-        // If this is a GET, or a DELETE, req.body should be null, so we only have options (route and query params)
-        // If this is a PUT, POST, or PATCH, req.body is an object
-        if (_.isEmpty(object)) {
-            object = options;
-            options = {};
-        }
-
-        return apiMethod(object, options).tap(function onSuccess(response) {
+        return apiMethod(options).tap(function onSuccess(response) {
             // Add X-Cache-Invalidate, Location, and Content-Disposition headers
             return addHeaders(apiMethod, req, res, (options.response || {}));
         }).then(function then(response) {

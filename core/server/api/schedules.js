@@ -17,11 +17,7 @@ var Promise = require('bluebird'),
  *
  * object.force: you can force publishing a post in the past (for example if your service was down)
  */
-exports.publishPost = function publishPost(object, options) {
-    if (_.isEmpty(options)) {
-        options = object || {};
-        object = {};
-    }
+exports.publishPost = function publishPost(options) {
 
     var post, publishedAtMoment,
         publishAPostBySchedulerToleranceInMinutes = config.get('times').publishAPostBySchedulerToleranceInMinutes;
@@ -54,7 +50,7 @@ exports.publishPost = function publishPost(object, options) {
                             return Promise.reject(new common.errors.NotFoundError({message: common.i18n.t('errors.api.job.notFound')}));
                         }
 
-                        if (publishedAtMoment.diff(moment(), 'minutes') < publishAPostBySchedulerToleranceInMinutes * -1 && object.force !== true) {
+                        if (publishedAtMoment.diff(moment(), 'minutes') < publishAPostBySchedulerToleranceInMinutes * -1 && options.data.force !== true) {
                             return Promise.reject(new common.errors.NotFoundError({message: common.i18n.t('errors.api.job.publishInThePast')}));
                         }
 
