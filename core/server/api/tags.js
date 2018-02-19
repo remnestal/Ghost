@@ -31,7 +31,8 @@ tags = {
          * @returns {Object} options
          */
         function doQuery(options) {
-            return models.Tag.findPage(options);
+            options.response = models.Tag.findPage(options);
+            return options.response;
         }
 
         // Push all of our tasks into a `tasks` array in the correct order
@@ -62,7 +63,7 @@ tags = {
          * @returns {Object} options
          */
         function doQuery(options) {
-            return models.Tag.findOne(options.data, _.omit(options, ['data']))
+            options.response = models.Tag.findOne(options.data, _.omit(options, ['data']))
                 .then(function onModelResponse(model) {
                     if (!model) {
                         return Promise.reject(new common.errors.NotFoundError({
@@ -74,6 +75,7 @@ tags = {
                         tags: [model.toJSON(options)]
                     };
                 });
+            return options.response;
         }
 
         // Push all of our tasks into a `tasks` array in the correct order
@@ -103,12 +105,13 @@ tags = {
          * @returns {Object} options
          */
         function doQuery(options) {
-            return models.Tag.add(options.data.tags[0], _.omit(options, ['data']))
+            options.response = models.Tag.add(options.data.tags[0], _.omit(options, ['data']))
                 .then(function onModelResponse(model) {
                     return {
                         tags: [model.toJSON(options)]
                     };
                 });
+            return options.response;
         }
 
         // Push all of our tasks into a `tasks` array in the correct order
@@ -140,7 +143,7 @@ tags = {
          * @returns {Object} options
          */
         function doQuery(options) {
-            return models.Tag.edit(options.data.tags[0], _.omit(options, ['data']))
+            options.response = models.Tag.edit(options.data.tags[0], _.omit(options, ['data']))
                 .then(function onModelResponse(model) {
                     if (!model) {
                         return Promise.reject(new common.errors.NotFoundError({
@@ -152,6 +155,7 @@ tags = {
                         tags: [model.toJSON(options)]
                     };
                 });
+            return options.response;
         }
 
         // Push all of our tasks into a `tasks` array in the correct order
@@ -182,7 +186,8 @@ tags = {
          * @param {Object} options
          */
         function deleteTag(options) {
-            return models.Tag.destroy(options).return(null);
+            options.response = models.Tag.destroy(options).return(null);
+            return options.response;
         }
 
         // Push all of our tasks into a `tasks` array in the correct order
