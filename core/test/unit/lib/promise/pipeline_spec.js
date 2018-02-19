@@ -3,7 +3,7 @@ var should = require('should'), // jshint ignore:line
     Promise = require('bluebird'),
 
 // Stuff we are testing
-    pipeline = require('../../../../server/lib/promise/pipeline'),
+    pipeline = require('../../../../server/lib/promise/sequential'),
 
     sandbox = sinon.sandbox.create();
 

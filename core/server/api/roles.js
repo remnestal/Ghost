@@ -1,7 +1,7 @@
 // # Roles API
 // RESTful API for the Role resource
 var Promise = require('bluebird'),
-    pipeline = require('../lib/promise/pipeline'),
+    pipeline = require('../lib/promise/sequential'),
     localUtils = require('./utils'),
     canThis = require('../services/permissions').canThis,
     models = require('../models'),

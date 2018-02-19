@@ -3,7 +3,7 @@
 var Promise = require('bluebird'),
     _ = require('lodash'),
     fs = require('fs-extra'),
-    pipeline = require('../lib/promise/pipeline'),
+    pipeline = require('../lib/promise/sequential'),
     fsLib = require('../lib/fs'),
     localUtils = require('./utils'),
     models = require('../models'),

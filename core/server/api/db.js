@@ -1,7 +1,7 @@
 // # DB API
 // API for DB operations
 var Promise = require('bluebird'),
-    pipeline = require('../lib/promise/pipeline'),
+    pipeline = require('../lib/promise/sequential'),
     localUtils = require('./utils'),
     exporter = require('../data/export'),
     importer = require('../data/importer'),
