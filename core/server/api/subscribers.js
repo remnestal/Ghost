@@ -32,7 +32,8 @@ subscribers = {
          * @returns {Object} options
          */
         function doQuery(options) {
-            return models.Subscriber.findPage(options);
+            options.response = models.Subscriber.findPage(options);
+            return   options.response;
         }
 
         // Push all of our tasks into a `tasks` array in the correct order
@@ -62,7 +63,7 @@ subscribers = {
          * @returns {Object} options
          */
         function doQuery(options) {
-            return models.Subscriber.findOne(options.data, _.omit(options, ['data']))
+            options.response = models.Subscriber.findOne(options.data, _.omit(options, ['data']))
                 .then(function onModelResponse(model) {
                     if (!model) {
                         return Promise.reject(new common.errors.NotFoundError({
@@ -74,6 +75,7 @@ subscribers = {
                         subscribers: [model.toJSON(options)]
                     };
                 });
+            return options.response;
         }
 
         // Push all of our tasks into a `tasks` array in the correct order
@@ -102,7 +104,7 @@ subscribers = {
          * @returns {Object} options
          */
         function doQuery(options) {
-            return models.Subscriber.getByEmail(options.data.subscribers[0].email)
+            options.response = models.Subscriber.getByEmail(options.data.subscribers[0].email)
                 .then(function (subscriber) {
                     if (subscriber && options.context.external) {
                         // we don't expose this information
@@ -124,6 +126,7 @@ subscribers = {
                         subscribers: [model.toJSON(options)]
                     };
                 });
+            return options.response;
         }
 
         // Push all of our tasks into a `tasks` array in the correct order
@@ -154,7 +157,7 @@ subscribers = {
          * @returns {Object} options
          */
         function doQuery(options) {
-            return models.Subscriber.edit(options.data.subscribers[0], _.omit(options, ['data']))
+            options.response = models.Subscriber.edit(options.data.subscribers[0], _.omit(options, ['data']))
                 .then(function onModelResponse(model) {
                     if (!model) {
                         return Promise.reject(new common.errors.NotFoundError({
@@ -166,6 +169,7 @@ subscribers = {
                         subscribers: [model.toJSON(options)]
                     };
                 });
+            return options.response;
         }
 
         // Push all of our tasks into a `tasks` array in the correct order
@@ -218,7 +222,8 @@ subscribers = {
          * @param {Object} options
          */
         function doQuery(options) {
-            return models.Subscriber.destroy(options).return(null);
+            options.response = models.Subscriber.destroy(options).return(null);
+            return options.response;
         }
 
         // Push all of our tasks into a `tasks` array in the correct order
@@ -271,11 +276,12 @@ subscribers = {
 
         // Export data, otherwise send error 500
         function exportSubscribers() {
-            return models.Subscriber.findAll(options).then(function (data) {
+            options.response = models.Subscriber.findAll(options).then(function (data) {
                 return formatCSV(data.toJSON(options));
             }).catch(function (err) {
                 return Promise.reject(new common.errors.GhostError({err: err}));
             });
+            return options.response;
         }
 
         tasks = [
@@ -304,7 +310,7 @@ subscribers = {
                 invalid = 0,
                 duplicates = 0;
 
-            return fsLib.readCSV({
+            options.response = fsLib.readCSV({
                 path: filePath,
                 columnsToExtract: [{name: 'email', lookup: /email/i}]
             }).then(function (result) {
@@ -338,6 +344,7 @@ subscribers = {
                 // Remove uploaded file from tmp location
                 return fs.unlink(filePath);
             });
+            return options.response;
         }
 
         tasks = [
