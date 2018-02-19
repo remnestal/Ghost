@@ -36,7 +36,8 @@ users = {
          * @returns {Object} options
          */
         function doQuery(options) {
-            return models.User.findPage(options);
+            options.response = models.User.findPage(options);
+            return options.response;
         }
 
         // Push all of our tasks into a `tasks` array in the correct order
@@ -72,7 +73,7 @@ users = {
          * @returns {Object} options
          */
         function doQuery(options) {
-            return models.User.findOne(options.data, _.omit(options, ['data']))
+            options.response = models.User.findOne(options.data, _.omit(options, ['data']))
                 .then(function onModelResponse(model) {
                     if (!model) {
                         return Promise.reject(new common.errors.NotFoundError({
@@ -84,6 +85,7 @@ users = {
                         users: [model.toJSON(options)]
                     };
                 });
+            return options.response;
         }
 
         // Push all of our tasks into a `tasks` array in the correct order
@@ -196,7 +198,7 @@ users = {
          * @returns {Object} options
          */
         function doQuery(options) {
-            return models.User.edit(options.data.users[0], _.omit(options, ['data']))
+            options.response = models.User.edit(options.data.users[0], _.omit(options, ['data']))
                 .then(function onModelResponse(model) {
                     if (!model) {
                         return Promise.reject(new common.errors.NotFoundError({
@@ -208,6 +210,7 @@ users = {
                         users: [model.toJSON(options)]
                     };
                 });
+            return options.response;
         }
 
         // Push all of our tasks into a `tasks` array in the correct order
@@ -253,7 +256,7 @@ users = {
          * @param {Object} options
          */
         function deleteUser(options) {
-            return models.Base.transaction(function (t) {
+            options.response = models.Base.transaction(function (t) {
                 options.transacting = t;
 
                 return Promise.all([
@@ -268,6 +271,7 @@ users = {
                     err: err
                 }));
             });
+            return options.response;
         }
 
         // Push all of our tasks into a `tasks` array in the correct order
@@ -330,7 +334,7 @@ users = {
          * @returns {Object} options
          */
         function doQuery(options) {
-            return models.User.changePassword(
+            options.response = models.User.changePassword(
                 options.data.password[0],
                 _.omit(options, ['data'])
             ).then(function onModelResponse() {
@@ -338,6 +342,7 @@ users = {
                     password: [{message: common.i18n.t('notices.api.users.pwdChangedSuccessfully')}]
                 });
             });
+            return options.response;
         }
 
         // Push all of our tasks into a `tasks` array in the correct order
@@ -382,7 +387,7 @@ users = {
          * @returns {Object} options
          */
         function doQuery(options) {
-            return models.User.transferOwnership(options.data.owner[0], _.omit(options, ['data']))
+            options.response = models.User.transferOwnership(options.data.owner[0], _.omit(options, ['data']))
                 .then(function onModelResponse(model) {
                     // NOTE: model returns json object already
                     // @TODO: why?
@@ -390,6 +395,7 @@ users = {
                         users: model
                     };
                 });
+            return options.response;
         }
 
         // Push all of our tasks into a `tasks` array in the correct order

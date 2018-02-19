@@ -39,7 +39,7 @@ roles = {
          * @returns {Object} options
          */
         function modelQuery(options) {
-            return models.Role.findAll(options)
+            options.response = models.Role.findAll(options)
                 .then(function onModelResponse(models) {
                     var roles = models.map(function (role) {
                         return role.toJSON();
@@ -61,6 +61,7 @@ roles = {
                         };
                     });
                 });
+            return options.response;
         }
 
         // Push all of our tasks into a `tasks` array in the correct order

@@ -56,7 +56,7 @@ slugs = {
          * @returns {Object} options
          */
         function modelQuery(options) {
-            return models.Base.Model.generateSlug(allowedTypes[options.type], options.data.name, {status: 'all'})
+            options.response = models.Base.Model.generateSlug(allowedTypes[options.type], options.data.name, {status: 'all'})
                 .then(function onModelResponse(slug) {
                     if (!slug) {
                         return Promise.reject(new common.errors.GhostError({
@@ -68,6 +68,7 @@ slugs = {
                         slugs: [{slug: slug}]
                     };
                 });
+            return options.response;
         }
 
         // Push all of our tasks into a `tasks` array in the correct order
