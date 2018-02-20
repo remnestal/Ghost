@@ -3,7 +3,7 @@
 // also known as "REST Hooks", see http://resthooks.org
 var Promise = require('bluebird'),
     _ = require('lodash'),
-    pipeline = require('../lib/promise/pipeline'),
+    pipeline = require('../lib/promise/sequential'),
     localUtils = require('./utils'),
     models = require('../models'),
     common = require('../lib/common'),

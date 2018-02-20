@@ -2,7 +2,7 @@
 // RESTful API for the User resource
 var Promise = require('bluebird'),
     _ = require('lodash'),
-    pipeline = require('../lib/promise/pipeline'),
+    pipeline = require('../lib/promise/sequential'),
     localUtils = require('./utils'),
     canThis = require('../services/permissions').canThis,
     models = require('../models'),
