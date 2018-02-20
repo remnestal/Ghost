@@ -126,7 +126,7 @@ posts = {
      * @param {{id (required), context, include,...}} options
      * @return {Promise(Post)} Edited Post
      */
-    edit: function edit(object, options) {
+    edit: function edit(options) {
         var tasks,
             // NOTE: the scheduler API uses the post API and forwards custom options
             extraAllowedOptions = options.opts || [];
@@ -171,7 +171,7 @@ posts = {
         ];
 
         // Pipeline calls each task passing the result of one to be the arguments for the next
-        return pipeline(tasks, object, options);
+        return pipeline(tasks, options);
     },
 
     /**
@@ -183,7 +183,7 @@ posts = {
      * @param {{context, include,...}} options
      * @return {Promise(Post)} Created Post
      */
-    add: function add(object, options) {
+    add: function add(options) {
         var tasks;
 
         /**
@@ -216,7 +216,7 @@ posts = {
         ];
 
         // Pipeline calls each task passing the result of one to be the arguments for the next
-        return pipeline(tasks, object, options);
+        return pipeline(tasks, options);
     },
 
     /**
